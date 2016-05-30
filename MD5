@@ -1,7 +1,7 @@
-934b8f0e5e1466d61a3a250401e1e638 *DESCRIPTION
+ba60e6306becc668fb3485e60d66c3d0 *DESCRIPTION
 95507701a15815546953de913c3cf776 *NAMESPACE
-de90d0a11d0d7df8c343721da746d493 *R/Grouping_function.R
-fa76536ed7611033ff1d29b9bdd3bd42 *R/Parallel_Tree.R
+0df919d98f94abf940a48995f61fd652 *R/Grouping_function.R
+fdd88c67d078195ccfb977702a660dfd *R/Parallel_Tree.R
 fe326cd5ccd2b892b63408fa49b82186 *man/Group_function.Rd
 6fb64de12fefd6aa4d199b4feac06e86 *man/ParallelTree.Rd
-ba0857929c8444483bd05ec2077d66c8 *man/Parallel_Tree.Rd
+7e1696eeae6f7ada53975da3217b9961 *man/Parallel_Tree.Rd

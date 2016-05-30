@@ -26,12 +26,13 @@ Group_function<-function(data=NULL, x, levels, func=mean, center = FALSE, nested
   if(!is.null(data)){
     name_x<-x
     x<-as.data.frame(data[,x])
-    levels<-data[,levels]
+    level_names<-levels
+    levels<-as.data.frame(data[,levels])
   }
   if(!is.data.frame(levels)){
     levels<-as.data.frame(levels)
+    level_names<-names(levels)
   }
-  level_names<-names(levels)
   if(is.null(data)){
     x<-as.data.frame(x)
     if(is.null(names(x))){
@@ -47,11 +48,11 @@ Group_function<-function(data=NULL, x, levels, func=mean, center = FALSE, nested
   gm_names<-c()
   while(j<length(name_x)+1){
     data<-as.data.frame(cbind(data,rep(func(data[,name_x[j]]),nrow(data))))
-    names(data)[ncol(data)]<-paste("grand mean", name_x[j],sep=" ")
-    gm_names<-c(gm_names,paste("grand mean", name_x[j],sep=" "))
+    names(data)[ncol(data)]<-paste("Grand Mean", name_x[j],sep=" ")
+    gm_names<-c(gm_names,paste("Grand Mean", name_x[j],sep=" "))
     i<-1
     while(i<ncol(levels)+1){
-      mean_vars<-c(mean_vars,paste(level_names[i],"level means", name_x[j], sep=" "))
+      mean_vars<-c(mean_vars,paste(level_names[i],"Level Means", name_x[j], sep=" "))
       if(nested){
         form<-parse(text=paste(name_x[j],"~",paste(level_names[1:i], collapse=" + "),sep=" ", collapse = " "))
         means<-aggregate(formula=eval(form), data=data, FUN=func)

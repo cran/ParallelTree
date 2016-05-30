@@ -5,7 +5,7 @@
 \title{Parallel_Tree}
 \usage{
 Parallel_Tree(x, use = names(x), standardize = FALSE, full_plot = TRUE,
-  append = NULL, a = 1)
+  append = NULL, a = 1, type = NULL)
 }
 \arguments{
 \item{x}{A data frame to be used for plotting. If other arguments are left blank the entire data frame will be plotted.}
@@ -19,6 +19,8 @@ Parallel_Tree(x, use = names(x), standardize = FALSE, full_plot = TRUE,
 \item{append}{A vector strings naming variables in x that should be appended to the data frame used for plotting. Default is NULL.}
 
 \item{a}{The alpha to be used by geom_path() when making the plot. Default is 1, but should be set lower if overplotting is likely to be an issue.}
+
+\item{type}{allows for two choices: "negative" Sets geom_path() color to "white", and plots on a black background. Second option is "print_friendly" which will produce a plot with plack background only behind observations and the rest of the plot will be white. Designed to retain benefits of plotting white lines on black background while minimizing ink usage, this option may also be useful for simultaneous density observation and outlier detection. Default is NULL.}
 }
 \value{
 The function returns a ggplot with scores on the Y axis and variable names, corresponding to levels, on the X axis. Default uses geom_path to create an individual path for each level 1 score.
@@ -39,22 +41,23 @@ Means_Chick<-Group_function(data=ChickWeight,x="weight", levels =c("Diet","Chick
  nested = FALSE, append=TRUE)
 #Here all values not plotted are appended to the temp data frame
 #created in the Parallel_Tree function
-Y<-Parallel_Tree(Means_Chick, use = c("grand mean weight", "Diet level means weight",
-"Chick level means weight","Time level means weight", "weight"),
+Y<-Parallel_Tree(Means_Chick, use = c("Grand Mean weight", "Diet Level Means weight",
+"Chick Level Means weight","Time Level Means weight", "weight"),
 append = c("Diet","weight","Time","Chick"))
 Y
 
 #color can be added using an appended variable
 Y+geom_path(aes(color=Diet))
 
-#altering the alpha may be useful in cases of overplotting.
-Parallel_Tree(Means_Chick, use = c("grand mean weight", "Diet level means weight",
-"Chick level means weight","Time level means weight", "weight"),
-append = c("Diet","weight","Time","Chick"), a=.1)
+#altering the alpha, and plotting using the negative setting,
+#may be useful in cases of overplotting.
+Parallel_Tree(Means_Chick, use = c("Grand Mean weight", "Diet Level Means weight",
+"Chick Level Means weight","Time Level Means weight", "weight"),
+append = c("Diet","weight","Time","Chick"), a=.2, type="negative")
 
 #geom_path is the default, although other geoms may be useful
-Parallel_Tree(Means_Chick, use = c("grand mean weight", "Diet level means weight",
-"Chick level means weight","Time level means weight", "weight"),
+Parallel_Tree(Means_Chick, use = c("Grand Mean weight", "Diet Level Means weight",
+"Chick Level Means weight","Time Level Means weight", "weight"),
 append = c("Diet","weight","Time","Chick"), full_plot=FALSE) +
 geom_boxplot(aes(group=levels))+scale_x_continuous(breaks=c(1:5),
 labels=c("Grand Mean","Diet Mean", "Chick Mean", "Age Mean", "Scores"))
