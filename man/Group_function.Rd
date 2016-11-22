@@ -5,7 +5,7 @@
 \title{Group_function}
 \usage{
 Group_function(data = NULL, x, levels, func = mean, center = FALSE,
-  nested = TRUE, append = FALSE)
+  nested = TRUE, append = FALSE, funcName = "Mean")
 }
 \arguments{
 \item{data}{a data frame with the x and level variables included. Default is NULL.}
@@ -21,6 +21,8 @@ Group_function(data = NULL, x, levels, func = mean, center = FALSE,
 \item{nested}{Are level variables nested? Default is TRUE. If set to FALSE means will be calculated for level variable independently. FALSE may be useful in cases of crossed designs. Note that if data are nested but all identifiers are unique both within and across groups nested = FALSE and nested = TRUE will return the same result.}
 
 \item{append}{If set to true, the original data will be returned along with all created variables.}
+
+\item{funcName}{Provides way to name function used. This is used when creating names for created variables. Default is "Mean".}
 }
 \value{
 This function returns a dataframe with variables labeled according to the level at which the function was applied. Assumed function is mean, and all variables are labeled accordingly. If an alternative function is used labels should be manually changed to reflect function used.

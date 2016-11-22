@@ -1,7 +1,7 @@
 Package: ParallelTree
 Type: Package
 Title: Parallel Tree
-Version: 0.1.1
+Version: 0.1.2
 Author: Patrick O'Keefe
 Maintainer: Patrick O'Keefe <patrick.okeefe@vanderbilt.edu>
 Description: 
@@ -14,6 +14,6 @@ License: GPL-3
 LazyData: TRUE
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-05-30 13:56:43 UTC; Patrick
+Packaged: 2016-11-22 04:21:56 UTC; Patrick
 Repository: CRAN
-Date/Publication: 2016-05-30 16:05:14
+Date/Publication: 2016-11-22 09:06:50

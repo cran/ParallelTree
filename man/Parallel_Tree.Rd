@@ -4,15 +4,15 @@
 \alias{Parallel_Tree}
 \title{Parallel_Tree}
 \usage{
-Parallel_Tree(x, use = names(x), standardize = FALSE, full_plot = TRUE,
-  append = NULL, a = 1, type = NULL)
+Parallel_Tree(x, use = names(x), standardize = "NONE", full_plot = TRUE,
+  append = NULL, a = 1, type = NULL, linesize = 0.1, color = NULL)
 }
 \arguments{
 \item{x}{A data frame to be used for plotting. If other arguments are left blank the entire data frame will be plotted.}
 
 \item{use}{A vector of strings naming the variables, in order, in x to be used for plotting. Default is names(x). Note: Variables can be repeated if desired.}
 
-\item{standardize}{A logical operator asking if variables used should be converted to z-scores prior to plotting. Default is FALSE.}
+\item{standardize}{Asksif variables used should be converted to z-scores ("Z"), or if scales should be set to have identical minimums and maximums ("MM") prior to plotting. Useful when plotted variables are on different scales. Default is "NONE".}
 
 \item{full_plot}{A logical operator, if set to FALSE, output will be a ggplot2 object with no geoms. Default is TRUE.}
 
@@ -21,6 +21,10 @@ Parallel_Tree(x, use = names(x), standardize = FALSE, full_plot = TRUE,
 \item{a}{The alpha to be used by geom_path() when making the plot. Default is 1, but should be set lower if overplotting is likely to be an issue.}
 
 \item{type}{allows for two choices: "negative" Sets geom_path() color to "white", and plots on a black background. Second option is "print_friendly" which will produce a plot with plack background only behind observations and the rest of the plot will be white. Designed to retain benefits of plotting white lines on black background while minimizing ink usage, this option may also be useful for simultaneous density observation and outlier detection. Default is NULL.}
+
+\item{linesize}{allows choice of line size used for geom_path() default is 0.1.}
+
+\item{color}{takes a string variable to be passed to geom_path() color aesthetic.}
 }
 \value{
 The function returns a ggplot with scores on the Y axis and variable names, corresponding to levels, on the X axis. Default uses geom_path to create an individual path for each level 1 score.
@@ -41,23 +45,26 @@ Means_Chick<-Group_function(data=ChickWeight,x="weight", levels =c("Diet","Chick
  nested = FALSE, append=TRUE)
 #Here all values not plotted are appended to the temp data frame
 #created in the Parallel_Tree function
-Y<-Parallel_Tree(Means_Chick, use = c("Grand Mean weight", "Diet Level Means weight",
-"Chick Level Means weight","Time Level Means weight", "weight"),
+Y<-Parallel_Tree(Means_Chick, use = c("Grand Mean weight", "Diet Mean weight",
+"Chick Mean weight","Time Mean weight", "weight"),
 append = c("Diet","weight","Time","Chick"))
 Y
 
-#color can be added using an appended variable
-Y+geom_path(aes(color=Diet))
+#color can be added using the color functionality
+Z<-Parallel_Tree(Means_Chick, use = c("Grand Mean weight", "Diet Mean weight",
+"Chick Mean weight","Time Mean weight", "weight"),
+color="Diet")
+Z
 
 #altering the alpha, and plotting using the negative setting,
 #may be useful in cases of overplotting.
-Parallel_Tree(Means_Chick, use = c("Grand Mean weight", "Diet Level Means weight",
-"Chick Level Means weight","Time Level Means weight", "weight"),
+Parallel_Tree(Means_Chick, use = c("Grand Mean weight", "Diet Mean weight",
+"Chick Mean weight","Time Mean weight", "weight"),
 append = c("Diet","weight","Time","Chick"), a=.2, type="negative")
 
 #geom_path is the default, although other geoms may be useful
-Parallel_Tree(Means_Chick, use = c("Grand Mean weight", "Diet Level Means weight",
-"Chick Level Means weight","Time Level Means weight", "weight"),
+Parallel_Tree(Means_Chick, use = c("Grand Mean weight", "Diet Mean weight",
+"Chick Mean weight","Time Mean weight", "weight"),
 append = c("Diet","weight","Time","Chick"), full_plot=FALSE) +
 geom_boxplot(aes(group=levels))+scale_x_continuous(breaks=c(1:5),
 labels=c("Grand Mean","Diet Mean", "Chick Mean", "Age Mean", "Scores"))
@@ -65,5 +72,7 @@ labels=c("Grand Mean","Diet Mean", "Chick Mean", "Age Mean", "Scores"))
 #Note that if facets are used the means are not recalculated.
 #Such plots should be interpreted with caution.
 Y+geom_path(aes(color=Diet))+facet_wrap(~Time)
+
+
 }
 

@@ -8,6 +8,7 @@
 #' @param center If set to true variables will be group/person mean centered. Note that the grand mean remains unchanged by this operation. If this output is to be passed directly to Parallel_Tree the grand mean should be set to 0.
 #' @param nested Are level variables nested? Default is TRUE. If set to FALSE means will be calculated for level variable independently. FALSE may be useful in cases of crossed designs. Note that if data are nested but all identifiers are unique both within and across groups nested = FALSE and nested = TRUE will return the same result.
 #' @param append If set to true, the original data will be returned along with all created variables.
+#' @param funcName Provides way to name function used. This is used when creating names for created variables. Default is "Mean".
 #'
 #' @return This function returns a dataframe with variables labeled according to the level at which the function was applied. Assumed function is mean, and all variables are labeled accordingly. If an alternative function is used labels should be manually changed to reflect function used.
 #' @export
@@ -22,7 +23,7 @@
 #' #nested is set to false because Chick and Time are crossed
 #' Means_Chick<-Group_function(data=ChickWeight,x="weight", levels =c("Diet","Chick","Time"),
 #' nested = FALSE, append=TRUE)
-Group_function<-function(data=NULL, x, levels, func=mean, center = FALSE, nested = TRUE, append=FALSE){
+Group_function<-function(data=NULL, x, levels, func=mean, center = FALSE, nested = TRUE, append=FALSE, funcName = "Mean"){
   if(!is.null(data)){
     name_x<-x
     x<-as.data.frame(data[,x])
@@ -48,11 +49,11 @@ Group_function<-function(data=NULL, x, levels, func=mean, center = FALSE, nested
   gm_names<-c()
   while(j<length(name_x)+1){
     data<-as.data.frame(cbind(data,rep(func(data[,name_x[j]]),nrow(data))))
-    names(data)[ncol(data)]<-paste("Grand Mean", name_x[j],sep=" ")
-    gm_names<-c(gm_names,paste("Grand Mean", name_x[j],sep=" "))
+    names(data)[ncol(data)]<-paste("Grand", funcName, name_x[j],sep=" ")
+    gm_names<-c(gm_names,paste("Grand", funcName, name_x[j],sep=" "))
     i<-1
     while(i<ncol(levels)+1){
-      mean_vars<-c(mean_vars,paste(level_names[i],"Level Means", name_x[j], sep=" "))
+      mean_vars<-c(mean_vars,paste(level_names[i], funcName, name_x[j], sep=" "))
       if(nested){
         form<-parse(text=paste(name_x[j],"~",paste(level_names[1:i], collapse=" + "),sep=" ", collapse = " "))
         means<-aggregate(formula=eval(form), data=data, FUN=func)
