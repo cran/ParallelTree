@@ -4,8 +4,9 @@
 \alias{Parallel_Tree}
 \title{Parallel_Tree}
 \usage{
-Parallel_Tree(x, use = names(x), standardize = "NONE", full_plot = TRUE,
-  append = NULL, a = 1, type = NULL, linesize = 0.1, color = NULL)
+Parallel_Tree(x, use = names(x), standardize = "NONE",
+  full_plot = TRUE, append = NULL, a = 1, type = NULL,
+  linesize = 0.1, color = NULL)
 }
 \arguments{
 \item{x}{A data frame to be used for plotting. If other arguments are left blank the entire data frame will be plotted.}
@@ -33,12 +34,7 @@ The function returns a ggplot with scores on the Y axis and variable names, corr
 Parallel_Tree
 }
 \examples{
-#the msleep data can be found in the ggplot2 package
-#This plots the sleep totals for a number of different mammals, as well as the grand,
-# order and genus mean levels of sleep.
-Means_sleep<-Group_function(msleep,"sleep_total",c("order","genus"))
-Parallel_Tree(Means_sleep)
-
+require(ggplot2)
 #the ChickWeight data is from base R
 #nested is set to false because Chick and Time are crossed
 Means_Chick<-Group_function(data=ChickWeight,x="weight", levels =c("Diet","Chick","Time"),
@@ -75,4 +71,3 @@ Y+geom_path(aes(color=Diet))+facet_wrap(~Time)
 
 
 }
-

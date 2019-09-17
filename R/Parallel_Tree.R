@@ -11,18 +11,13 @@
 #' @param linesize allows choice of line size used for geom_path() default is 0.1.
 #' @param color takes a string variable to be passed to geom_path() color aesthetic.
 #'
-#'
+#' @import ggplot2
+#' @export Parallel_Tree
 #'
 #' @return The function returns a ggplot with scores on the Y axis and variable names, corresponding to levels, on the X axis. Default uses geom_path to create an individual path for each level 1 score.
-#' @export
 #'
 #' @examples
-#' #the msleep data can be found in the ggplot2 package
-#' #This plots the sleep totals for a number of different mammals, as well as the grand,
-#' # order and genus mean levels of sleep.
-#' Means_sleep<-Group_function(msleep,"sleep_total",c("order","genus"))
-#' Parallel_Tree(Means_sleep)
-#'
+#' require(ggplot2)
 #' #the ChickWeight data is from base R
 #' #nested is set to false because Chick and Time are crossed
 #' Means_Chick<-Group_function(data=ChickWeight,x="weight", levels =c("Diet","Chick","Time"),
@@ -120,9 +115,9 @@ Parallel_Tree<-function(x, use=names(x), standardize="NONE", full_plot=TRUE, app
     if(!is.null(type)){
       if(type=="negative"){
         plot<-plot+geom_path(color="white", alpha=a, size=linesize)+scale_x_continuous(breaks=c(1:(length(use))), labels=c(use))+xlab(NULL)+ylab(NULL)+theme(panel.background = element_rect(fill="black"),  panel.grid.minor = element_blank())
-        }else if(type=="print_friendly"){
-          plot<-plot+geom_path(color="black",size=10)+geom_path(color="white", alpha=a, size=linesize)+scale_x_continuous(breaks=c(1:(length(use))), labels=c(use))+xlab(NULL)+ylab(NULL)+theme(panel.background = element_rect(fill="white"),  panel.grid.minor = element_blank())
-        }
+      }else if(type=="print_friendly"){
+        plot<-plot+geom_path(color="black",size=10)+geom_path(color="white", alpha=a, size=linesize)+scale_x_continuous(breaks=c(1:(length(use))), labels=c(use))+xlab(NULL)+ylab(NULL)+theme(panel.background = element_rect(fill="white"),  panel.grid.minor = element_blank())
+      }
       #if color was to be used it is plotted here
     } else if (!is.null(color)){
       plot<-plot+geom_path(alpha=a, size=linesize, aes(color=color))+scale_x_continuous(breaks=c(1:(length(use))), labels=c(use))+xlab(NULL)+ylab(NULL)

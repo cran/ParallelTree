@@ -1,4 +1,3 @@
-#If data argument is Null, takes a variable "x" and a matrix or dataframe of level identifiers (e.g., mother and then child IDs). Level variables should be included in order from highest level to the lowest. Listwise deletes missing data. Otherwise grabs variables from entered dataframe
 #' Group_function
 #'
 #' @param data a data frame with the x and level variables included. Default is NULL.
@@ -10,20 +9,18 @@
 #' @param append If set to true, the original data will be returned along with all created variables.
 #' @param funcName Provides way to name function used. This is used when creating names for created variables. Default is "Mean".
 #'
+#' @import stats
+#' @export Group_function
+#'
 #' @return This function returns a dataframe with variables labeled according to the level at which the function was applied. Assumed function is mean, and all variables are labeled accordingly. If an alternative function is used labels should be manually changed to reflect function used.
-#' @export
 #'
 #' @examples
-#' #the msleep data can be found in the ggplot2 package
-#' #This plots the sleep totals for a number of different mammals, as well as the grand,
-#' # order and genus mean levels of sleep.
-#' Means_sleep<-Group_function(msleep,"sleep_total",c("order","genus"))
-#'
 #' #the ChickWeight data is from base R
 #' #nested is set to false because Chick and Time are crossed
 #' Means_Chick<-Group_function(data=ChickWeight,x="weight", levels =c("Diet","Chick","Time"),
 #' nested = FALSE, append=TRUE)
 Group_function<-function(data=NULL, x, levels, func=mean, center = FALSE, nested = TRUE, append=FALSE, funcName = "Mean"){
+  #If data argument is Null, takes a variable "x" and a matrix or dataframe of level identifiers (e.g., mother and then child IDs). Level variables should be included in order from highest level to the lowest. Listwise deletes missing data. Otherwise grabs variables from entered dataframe
   if(!is.null(data)){
     name_x<-x
     x<-as.data.frame(data[,x])
